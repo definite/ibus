@@ -117,7 +117,7 @@ class Bus(object.Object):
     def list_engines(self):
         engines = self.__ibus.ListEngines()
         return map(serializable.deserialize_object, engines)
-
+    
     def list_active_engines(self):
         engines = self.__ibus.ListActiveEngines()
         return map(serializable.deserialize_object, engines)
@@ -125,8 +125,8 @@ class Bus(object.Object):
     def create_input_context(self, client_name):
         return self.__ibus.CreateInputContext(client_name)
 
-    def exit(self, restart):
-        return self.__ibus.Exit(restart)
+    def kill(self):
+        return self.__ibus.Kill()
 
     def get_config(self):
         try:

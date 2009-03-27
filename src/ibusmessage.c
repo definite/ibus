@@ -261,7 +261,7 @@ void
 ibus_message_set_no_reply (IBusMessage  *message,
                            gboolean      no_reply)
 {
-    dbus_message_set_no_reply (message, no_reply);
+    return dbus_message_set_no_reply (message, no_reply);
 }
 
 gboolean
@@ -424,7 +424,7 @@ ibus_message_get_args_valist (IBusMessage *message,
     if (!retval) {
         if (error) {
             *error = ibus_error_new_from_printf (DBUS_ERROR_INVALID_ARGS,
-                                                 "Message does not have arguments!");
+                                             "Message does not have arguments!");
         }
         return FALSE;
     }

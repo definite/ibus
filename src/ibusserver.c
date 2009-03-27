@@ -107,7 +107,6 @@ ibus_server_listen  (IBusServer  *server,
 {
     g_assert (IBUS_IS_SERVER (server));
     g_assert (address != NULL);
-
     return ibus_server_listen_internal (server, address);
 }
 

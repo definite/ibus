@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus\n"
 "Report-Msgid-Bugs-To: http://code.google.com/p/ibus/issues/entry\n"
-"POT-Creation-Date: 2009-03-20 09:52+0800\n"
+"POT-Creation-Date: 2009-03-26 17:04+1000\n"
 "PO-Revision-Date: 2008-10-17 14:15+0530\n"
 "Last-Translator: Amanpreet Singh <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-l10n@lists.sf.net>\n"
@@ -21,23 +21,16 @@ msgstr ""
 msgid "Other"
 msgstr "ਹੋਰ"
 
-#: ui/gtk/panel.py:97
-msgid "IBus input method framework"
-msgstr ""
+#: ui/gtk/panel.py:99
+#, fuzzy
+msgid "iBus - Running"
+msgstr "IBus -  ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ui/gtk/panel.py:282
-msgid "Restart"
-msgstr ""
-
-#: ui/gtk/panel.py:337
-msgid "No input method"
-msgstr ""
-
-#: ui/gtk/panel.py:383
+#: ui/gtk/panel.py:370
 msgid "IBus is an intelligent input bus for Linux/Unix."
 msgstr "IBus ਲੀਨਕਸ/ਯੂਨੈਕਸ ਲਈ ਮਾਹਰ ਇੰਪੁੱਟ ਬੱਸ ਹੈ।"
 
-#: ui/gtk/panel.py:387
+#: ui/gtk/panel.py:374
 msgid "translator-credits"
 msgstr "ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ"
 
@@ -222,9 +215,6 @@ msgstr "ਇਸ ਬਾਰੇ"
 
 #~ msgid "Auto hide language bar"
 #~ msgstr "ਭਾਸ਼ਾ ਪੱਟੀ ਆਟੋਮੈਟਿਕ ਓਹਲੇ ਕਰੋ"
-
-#~ msgid "IBus - Running"
-#~ msgstr "IBus -  ਚੱਲ ਰਿਹਾ ਹੈ"
 
 #~ msgid "IBus - Setup"
 #~ msgstr "IBus - ਸੈੱਟਅੱਪ"

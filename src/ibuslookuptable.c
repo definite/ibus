@@ -429,3 +429,4 @@ ibus_lookup_table_cursor_down (IBusLookupTable *table)
     table->cursor_pos ++;
     return TRUE;
 }
+

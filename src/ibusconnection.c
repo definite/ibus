@@ -370,16 +370,6 @@ ibus_connection_get_connection (IBusConnection *connection)
     return priv->connection;
 }
 
-gboolean
-ibus_connection_read_write_dispatch (IBusConnection *connection,
-                                     gint            timeout)
-{
-    IBusConnectionPrivate *priv;
-    priv = IBUS_CONNECTION_GET_PRIVATE (connection);
-
-    return dbus_connection_read_write_dispatch (priv->connection, timeout);
-}
-
 typedef struct _VTableCallData {
     IBusMessageFunc message_func;
     gpointer user_data;
@@ -564,18 +554,14 @@ ibus_connection_send_with_reply (IBusConnection   *connection,
     g_assert (message != NULL);
     g_assert (pending_return != NULL);
     g_assert (timeout_milliseconds > 0 || timeout_milliseconds == -1);
-
+    
     IBusConnectionPrivate *priv;
     priv = IBUS_CONNECTION_GET_PRIVATE (connection);
 
-    gboolean retval;
-
-    retval = dbus_connection_send_with_reply (priv->connection,
-                                              message,
-                                              pending_return,
-                                              timeout_milliseconds);
-
-    return retval;
+    return dbus_connection_send_with_reply (priv->connection,
+                                            message,
+                                            pending_return,
+                                            timeout_milliseconds);
 }
 
 IBusMessage *
@@ -605,16 +591,13 @@ ibus_connection_send_with_reply_and_block (IBusConnection   *connection,
                        connection_signals[IBUS_MESSAGE_SENT],
                        0,
                        message);
-        ibus_error_free (_error);
     }
-    else {
-        if (error != NULL) {
+
+    if (reply == NULL && error != NULL) {
             *error = _error;
-        }
-        else {
-            ibus_error_free (_error);
-        }
     }
+    else
+        ibus_error_free (_error);
 
     return reply;
 }
@@ -669,9 +652,8 @@ ibus_connection_call (IBusConnection     *connection,
         if (error) {
             *error = tmp_error;
         }
-        else {
+        else
             ibus_error_free (tmp_error);
-        }
         ibus_message_unref (reply);
         return FALSE;
     }
@@ -680,7 +662,7 @@ ibus_connection_call (IBusConnection     *connection,
 
     type = first_arg_type;
 
-    while (type != G_TYPE_INVALID) {
+    while (type != DBUS_TYPE_INVALID) {
         va_arg (args, gpointer);
         type = va_arg (args, GType);
     }
@@ -689,14 +671,16 @@ ibus_connection_call (IBusConnection     *connection,
     if (type != G_TYPE_INVALID) {
         retval = ibus_message_get_args_valist (reply, error, type, args);
     }
-    else {
-        retval = TRUE;
-    }
-    
-    va_end (args);    
+
+    va_end (args);
+
     ibus_message_unref (reply);
 
-    return retval;
+    if (!retval) {
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 void

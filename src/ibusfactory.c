@@ -99,7 +99,7 @@ ibus_factory_new (IBusConnection *connection)
 
     factory = (IBusFactory *) g_object_new (IBUS_TYPE_FACTORY,
                                             "path", IBUS_PATH_FACTORY,
-                                            NULL);
+                                            0);
     priv = IBUS_FACTORY_GET_PRIVATE (factory);
 
     priv->connection = g_object_ref (connection);
@@ -229,7 +229,7 @@ ibus_factory_ibus_message (IBusFactory    *factory,
             ibus_connection_send (connection, reply_message);
             ibus_message_unref (reply_message);
             return TRUE;
-
+           
         }
 
         path = g_strdup_printf ("/org/freedesktop/IBus/Engine/%d", ++priv->id);
@@ -238,7 +238,7 @@ ibus_factory_ibus_message (IBusFactory    *factory,
                                "name", engine_name,
                                "path", path,
                                "connection", priv->connection,
-                               NULL);
+                               0);
 
         priv->engine_list = g_list_append (priv->engine_list, engine);
         g_signal_connect (engine,
@@ -269,7 +269,7 @@ ibus_factory_add_engine (IBusFactory *factory,
     g_assert (IBUS_IS_FACTORY (factory));
     g_assert (engine_name);
     g_assert (g_type_is_a (engine_type, IBUS_TYPE_ENGINE));
-
+    
     IBusFactoryPrivate *priv;
     priv = IBUS_FACTORY_GET_PRIVATE (factory);
 
@@ -468,7 +468,7 @@ ibus_factory_info_new (const gchar *path,
 
     IBusFactoryInfo *info;
 
-    info = (IBusFactoryInfo *) g_object_new (IBUS_TYPE_FACTORY_INFO, NULL);
+    info = (IBusFactoryInfo *)g_object_new (IBUS_TYPE_FACTORY_INFO, 0);
 
     info->path = g_strdup (path);
     info->name = g_strdup (name);

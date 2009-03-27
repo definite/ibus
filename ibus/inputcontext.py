@@ -197,19 +197,13 @@ class InputContext(object.Object):
     def reset(self):
         return self.__context.Reset()
 
-    def enable(self):
-        return self.__context.Enable()
-
-    def disable(self):
-        return self.__context.Disable()
-
     def is_enabled(self):
         return self.__context.IsEnabled()
 
     def set_capabilities(self, caps):
         caps = dbus.UInt32(caps)
         return self.__context.SetCapabilities(caps)
-
+    
     def destroy(self):
         self.__context.Destroy()
         super(InputContext, self).destroy()

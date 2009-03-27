@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.1.20080813\n"
 "Report-Msgid-Bugs-To: http://code.google.com/p/ibus/issues/entry\n"
-"POT-Creation-Date: 2009-03-20 09:52+0800\n"
+"POT-Creation-Date: 2009-03-26 17:04+1000\n"
 "PO-Revision-Date: 2008-08-13 21:59+0800\n"
 "Last-Translator: Huang Peng <shawn.p.huang@gmail.com>\n"
 "Language-Team: Huang Peng <shawn.p.huang@gmail.com>\n"
@@ -21,23 +21,15 @@ msgstr ""
 msgid "Other"
 msgstr "其他"
 
-#: ui/gtk/panel.py:97
-msgid "IBus input method framework"
-msgstr "IBus输入法框架"
+#: ui/gtk/panel.py:99
+msgid "iBus - Running"
+msgstr ""
 
-#: ui/gtk/panel.py:282
-msgid "Restart"
-msgstr "重新启动"
-
-#: ui/gtk/panel.py:337
-msgid "No input method"
-msgstr "关闭输入法"
-
-#: ui/gtk/panel.py:383
+#: ui/gtk/panel.py:370
 msgid "IBus is an intelligent input bus for Linux/Unix."
 msgstr ""
 
-#: ui/gtk/panel.py:387
+#: ui/gtk/panel.py:374
 msgid "translator-credits"
 msgstr "Huang Peng <shawn.p.huang@gmail.com>"
 
@@ -148,13 +140,14 @@ msgid "Show language panel:"
 msgstr "显示语言栏:"
 
 #: setup/setup.glade:259
+#, fuzzy
 msgid ""
 "Never\n"
 "When active\n"
 "Always"
 msgstr ""
 "从不\n"
-"活动时\n"
+"动态\n"
 "总是"
 
 #: setup/setup.glade:276
@@ -198,3 +191,12 @@ msgstr "<b>启动</b>"
 #: setup/setup.glade:543
 msgid "About"
 msgstr "关于"
+
+#~ msgid "IBus input method framework"
+#~ msgstr "IBus输入法框架"
+
+#~ msgid "Restart"
+#~ msgstr "重新启动"
+
+#~ msgid "No input method"
+#~ msgstr "关闭输入法"

@@ -74,7 +74,9 @@ class Panel(ibus.PanelBase):
 
         # add icon search path
         icon_theme = gtk.icon_theme_get_default()
-        icon_theme.prepend_search_path(self.__icons_dir)
+        dir = path.dirname(__file__)
+        icondir = path.join(dir, "..", "icons")
+        icon_theme.prepend_search_path(icondir)
 
         self.__language_bar = LanguageBar()
         self.__language_bar.connect("property-activate",
@@ -94,11 +96,11 @@ class Panel(ibus.PanelBase):
         self.__status_icon.connect("popup-menu", self.__status_icon_popup_menu_cb)
         self.__status_icon.connect("activate", self.__status_icon_activate_cb)
         self.__status_icon.set_from_file(self.__ibus_icon)
-        self.__status_icon.set_tooltip(_("IBus input method framework"))
+        self.__status_icon.set_tooltip(_("iBus - Running"))
         self.__status_icon.set_visible(True)
 
         self.__config_load_lookup_table_orientation()
-        self.__config_load_show()
+        self.__config_load_auto_hide()
         self.__config_load_custom_font()
         # self.__bus.request_name(ibus.panel.IBUS_SERVICE_PANEL, 0)
 
@@ -166,8 +168,6 @@ class Panel(ibus.PanelBase):
         return self.__status_icon
 
     def __set_im_icon(self, icon_name):
-        if not icon_name:
-            icon_name = "engine-default"
         self.__language_bar.set_im_icon(icon_name)
         if icon_name.startswith("/"):
             self.__status_icon.set_from_file(icon_name)
@@ -193,7 +193,6 @@ class Panel(ibus.PanelBase):
     def focus_out(self, ic):
         self.reset()
         self.__focus_ic = None
-        self.__language_bar.set_enabled(False)
         self.__language_bar.focus_out()
         self.__set_im_icon(self.__ibus_icon)
 
@@ -213,7 +212,7 @@ class Panel(ibus.PanelBase):
                 self.__set_im_icon(engine.icon)
             else:
                 self.__set_im_icon(self.__ibus_icon)
-
+                
 
     def reset(self):
         self.__candidate_panel.reset()
@@ -234,9 +233,9 @@ class Panel(ibus.PanelBase):
         else:
             self.__candidate_panel.set_orientation(gtk.ORIENTATION_VERTICAL)
 
-    def __config_load_show(self):
-        show = self.__config.get_value("panel", "show", 1)
-        self.__language_bar.set_show(show)
+    def __config_load_auto_hide(self):
+        auto_hide = self.__config.get_value("panel", "auto_hide", False)
+        self.__language_bar.set_auto_hide(auto_hide)
 
     def __config_load_custom_font(self):
         use_custom_font = self.__config.get_value("panel", "use_custom_font", False)
@@ -260,8 +259,8 @@ class Panel(ibus.PanelBase):
             return
         if name == "lookup_table_orientation":
             self.__config_load_lookup_table_orientation()
-        elif name == "show":
-            self.__config_load_show()
+        elif name == "auto_hide":
+            self.__config_load_auto_hide()
         elif name == "use_custom_font" or name == "custom_font":
             self.__config_load_custom_font()
 
@@ -279,10 +278,6 @@ class Panel(ibus.PanelBase):
             self.__sys_menu_item_activate_cb, gtk.STOCK_ABOUT)
         menu.add(item)
         menu.add(gtk.SeparatorMenuItem())
-        item = gtk.MenuItem(_("Restart"))
-        item.connect("activate",
-            self.__sys_menu_item_activate_cb, "Restart")
-        menu.add(item)
         item = gtk.ImageMenuItem(gtk.STOCK_QUIT)
         item.connect("activate",
             self.__sys_menu_item_activate_cb, gtk.STOCK_QUIT)
@@ -296,48 +291,43 @@ class Panel(ibus.PanelBase):
         menu = gtk.Menu()
         engines = self.__bus.list_active_engines()
 
-        tmp = {}
-        for engine in engines:
-            lang = ibus.get_language_name(engine.language)
-            if lang not in tmp:
-                tmp[lang] = []
-            tmp[lang].append(engine)
+        if not engines:
+            item = gtk.MenuItem(label = "no engine")
+            item.set_sensitive(False)
+            menu.add(item)
+        else:
+            tmp = {}
+            for engine in engines:
+                lang = ibus.get_language_name(engine.language)
+                if lang not in tmp:
+                    tmp[lang] = []
+                tmp[lang].append(engine)
 
-        langs = tmp.keys()
-        other = tmp.get(_("Other"), [])
-        if _("Other") in tmp:
-            langs.remove(_("Other"))
-            langs.append(_("Other"))
+            langs = tmp.keys()
+            other = tmp.get(_("Other"), [])
+            if _("Other") in tmp:
+                langs.remove(_("Other"))
+                langs.append(_("Other"))
 
-        size = gtk.icon_size_lookup(gtk.ICON_SIZE_MENU)
-        for lang in langs:
-            if len(tmp[lang]) == 1:
-                engine = tmp[lang][0]
-                item = gtk.ImageMenuItem("%s - %s" % (lang, engine.longname))
-                if engine.icon:
+            for lang in langs:
+                if len(tmp[lang]) == 1:
+                    engine = tmp[lang][0]
+                    item = gtk.ImageMenuItem("%s - %s" % (lang, engine.longname))
+                    size = gtk.icon_size_lookup(gtk.ICON_SIZE_MENU)
                     item.set_image (_icon.IconWidget(engine.icon, size[0]))
-                else:
-                    item.set_image (_icon.IconWidget("engine-default", size[0]))
-                item.connect("activate", self.__im_menu_item_activate_cb, engine)
-                menu.add(item)
-            else:
-                item = gtk.MenuItem(lang)
-                menu.add(item)
-                submenu = gtk.Menu()
-                item.set_submenu(submenu)
-                for engine in tmp[lang]:
-                    item = gtk.ImageMenuItem(engine.longname)
-                    if engine.icon:
-                        item.set_image (_icon.IconWidget(engine.icon, size[0]))
-                    else:
-                        item.set_image (_icon.IconWidget("engine-default", size[0]))
                     item.connect("activate", self.__im_menu_item_activate_cb, engine)
-                    submenu.add(item)
-
-        item = gtk.ImageMenuItem(_("No input method"))
-        item.set_image (_icon.IconWidget("gtk-close", size[0]))
-        item.connect("activate", self.__im_menu_item_activate_cb, None)
-        menu.add (item)
+                    menu.add(item)
+                else:
+                    item = gtk.MenuItem(lang)
+                    menu.add(item)
+                    submenu = gtk.Menu()
+                    item.set_submenu(submenu)
+                    for engine in tmp[lang]:
+                        item = gtk.ImageMenuItem(engine.longname)
+                        size = gtk.icon_size_lookup(gtk.ICON_SIZE_MENU)
+                        item.set_image (_icon.IconWidget(engine.icon, size[0]))
+                        item.connect("activate", self.__im_menu_item_activate_cb, engine)
+                        submenu.add(item)
 
         menu.show_all()
         menu.set_take_focus(False)
@@ -366,17 +356,14 @@ class Panel(ibus.PanelBase):
                 self.__status_icon)
 
     def __im_menu_item_activate_cb(self, item, engine):
-        if engine:
-            self.__focus_ic.set_engine(engine)
-        else:
-            self.__focus_ic.disable()
+        self.__focus_ic.set_engine(engine)
 
     def __sys_menu_item_activate_cb(self, item, command):
         if command == gtk.STOCK_PREFERENCES:
             self.__start_setup()
         elif command == gtk.STOCK_ABOUT:
             about_dialog = gtk.AboutDialog()
-            about_dialog.set_program_name("IBus")
+            about_dialog.set_program_name("iBus")
             about_dialog.set_version(ibus.get_version())
             about_dialog.set_copyright(ibus.get_copyright())
             about_dialog.set_license(ibus.get_license())
@@ -388,10 +375,8 @@ class Panel(ibus.PanelBase):
             about_dialog.set_logo_icon_name("ibus")
             about_dialog.run()
             about_dialog.destroy()
-        elif command == gtk.STOCK_QUIT: 
-            self.__bus.exit(False)
-        elif command == "Restart":
-            self.__bus.exit(True)
+        elif command == gtk.STOCK_QUIT:
+            self.__bus.kill()
         else:
             print >> sys.stderr, "Unknown command %s" % command
     

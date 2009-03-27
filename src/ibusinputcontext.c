@@ -333,7 +333,7 @@ ibus_input_context_real_destroy (IBusInputContext *context)
                          "Destroy",
                          G_TYPE_INVALID);
     }
-
+    
     IBUS_OBJECT_CLASS(parent_class)->destroy (IBUS_OBJECT (context));
 }
 
@@ -426,12 +426,14 @@ ibus_input_context_ibus_signal (IBusProxy           *proxy,
                                      IBUS_INTERFACE_INPUT_CONTEXT,
                                      "ForwardKeyEvent")) {
         guint32 keyval;
+        gboolean is_press;
         guint32 state;
         gboolean retval;
 
         retval = ibus_message_get_args (message,
                                         &error,
                                         G_TYPE_UINT, &keyval,
+                                        G_TYPE_BOOLEAN, &is_press,
                                         G_TYPE_UINT, &state,
                                         G_TYPE_INVALID);
 
@@ -571,10 +573,7 @@ ibus_input_context_process_key_event (IBusInputContext *context,
     }
 
     /* wait reply or timeout */
-    IBusConnection *connection = ibus_proxy_get_connection ((IBusProxy *) context);
-    while (!ibus_pending_call_get_completed (pending)) {
-        ibus_connection_read_write_dispatch (connection, -1);
-    }
+    ibus_pending_call_wait (pending);
 
     reply_message = ibus_pending_call_steal_reply (pending);
     ibus_pending_call_unref (pending);

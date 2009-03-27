@@ -1,6 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %{!?gtk_binary_version: %define gtk_binary_version %(pkg-config  --variable=gtk_binary_version gtk+-2.0)}
 %define mod_path ibus-@PACKAGE_VERSION_MAJOR@.@PACKAGE_VERSION_MINOR@
+%define host_vendor %(if [[ "%{_host_vendor}" == "unknown" ]]; then echo redhat; else echo %{_host_vendor}; fi)
+%define host %{_host_cpu}-%{host_vendor}-%{_host_os}
 Name:       ibus
 Version:    @PACKAGE_VERSION@
 Release:    1%{?dist}
@@ -108,13 +110,32 @@ desktop-file-install --delete-original          \
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+if [ "$1" -gt 1 ] ; then
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+gconftool-2 --makefile-uninstall-rule \
+%{_sysconfdir}/gconf/schemas/%{name}.schemas >/dev/null || :
+fi
+
+%post
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+gconftool-2 --makefile-install-rule \
+%{_sysconfdir}/gconf/schemas/%{name}.schemas > /dev/null || :
+
+%preun
+if [ "$1" -eq 0 ] ; then
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+gconftool-2 --makefile-uninstall-rule \
+%{_sysconfdir}/gconf/schemas/%{name}.schemas > /dev/null || :
+fi
+
 %post libs
 /sbin/ldconfig
 update-desktop-database -q
 %{_sbindir}/alternatives --install %{_sysconfdir}/X11/xinit/xinputrc xinputrc %{_xinputconf} 83 || :
 
 %post gtk
-%{_bindir}/update-gtk-immodules %{_host} || :
+%{_bindir}/update-gtk-immodules %{host} || :
 
 %postun libs
 /sbin/ldconfig
@@ -126,7 +147,7 @@ if [ "$1" = "0" ]; then
 fi
 
 %postun gtk
-%{_bindir}/update-gtk-immodules %{_host} || :
+%{_bindir}/update-gtk-immodules %{host} || :
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -140,8 +161,9 @@ fi
 %{_libexecdir}/ibus-gconf
 %{_libexecdir}/ibus-ui-gtk
 %{_libexecdir}/ibus-x11
-%config %{_xinputconf}
-
+%config(noreplace) %{_xinputconf}
+%config(noreplace) %{_sysconfdir}/gconf/schemas/%{name}.schemas
+%config(noreplace) %{_sysconfdir}/xdg/autostart/ibus.desktop
 
 %files libs
 %defattr(-,root,root,-)
@@ -163,5 +185,135 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
-* Thu Aug 07 2008 Huang Peng <shawn.p.huang@gmail.com> - @VERSION@-1
+* @DATE_DISPLAY@ Huang Peng <shawn.p.huang@gmail.com> - @VERSION@-1
+- Current version.
+
+* Wed Mar 11 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090311-1
+- Update to ibus-1.1.0.20090311.
+- Update setup ui follow GNOME Human Interface Guidelines 2.2 (#489497).
+
+* Fri Mar 06 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090306-1
+- Update to ibus-1.1.0.20090306.
+
+* Tue Mar 03 2009 Jens Petersen <petersen@redhat.com>
+- use post for ibus-gtk requires glib2
+
+* Mon Mar 02 2009 Jens Petersen <petersen@redhat.com> - 1.1.0.20090225-2
+- drop the superfluous ibus-0.1 engine obsoletes
+- move glib2 requires to gtk package
+
+* Wed Feb 25 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090225-1
+- Update to ibus-1.1.0.20090225.
+- Fix problems in %post and %postun scripts.
+- Hide ibus &amp; ibus preferences menu items.
+
+* Tue Feb 17 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-10
+- Recreate the ibus-HEAD.patch from upstream git source tree.
+- Put 'Select an input method' in engine select combobox (#485861).
+
+* Tue Feb 17 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-9
+- Add requires im-chooser >= 1.2.5.
+
+* Tue Feb 17 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-8
+- Recreate the ibus-HEAD.patch from upstream git source tree.
+- Fix ibus-hangul segfault (#485438).
+
+* Mon Feb 16 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-6
+- Recreate the ibus-HEAD.patch from upstream git source tree.
+- The new patch fixes ibus-x11 segfault (#485661).
+
+* Sun Feb 15 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-5
+- Recreate the ibus-HEAD.patch from upstream git source tree.
+
+* Sun Feb 15 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-4
+- Remove gnome-python2-gconf from requires.
+
+* Fri Feb 13 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-3
+- Update ibus-HEAD.patch, to fix bug 484652.
+
+* Fri Feb 13 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-2
+- Add patch ibus-HEAD.patch, to update ibus to HEAD version.
+
+* Wed Feb 11 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090211-1
+- Add --xim argument in xinput-ibus
+- Add Obsoletes:  ibus-qt <= 1.1.0
+- Move libibus.so.* to ibus-libs to make ibus multilib.
+- Update to 1.1.0.20090211.
+
+* Thu Feb 05 2009 Huang Peng <shawn.p.huang@gmail.com> - 1.1.0.20090205-1
+- Update to 1.1.0.20090205.
+
+* Tue Feb 03 2009 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20090203-1
+- Update to 0.1.1.20090203.
+
+* Sat Nov 29 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 0.1.1.20081023-3
+- Rebuild for Python 2.6
+
+* Wed Nov 19 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081023-2
+- Move libibus-gtk.so from ibus.rpm to ibus-gtk.rpm to fix bug 472146.
+
+* Thu Oct 23 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081023-1
+- Update to 0.1.1.20081023.
+
+* Thu Oct 16 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081016-1
+- Update to 0.1.1.20081016.
+
+* Tue Oct 07 2008 Jens Petersen <petersen@redhat.com> - 0.1.1.20081006-3
+- remove the empty %doc file entries
+
+* Tue Oct 07 2008 Jens Petersen <petersen@redhat.com> - 0.1.1.20081006-2
+- add xinputrc alternative when installing or uninstalling
+
+* Mon Oct 06 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081006-1
+- Update to 0.1.1.20081006.
+
+* Sun Oct 05 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081005-1
+- Update to 0.1.1.20081005.
+
+* Sat Oct 04 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081004-1
+- Update to 0.1.1.20081004.
+
+* Wed Oct 01 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20081001-1
+- Update to 0.1.1.20081001.
+
+* Tue Sep 30 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080930-1
+- Update to 0.1.1.20080930.
+
+* Tue Sep 23 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080923-1
+- Update to 0.1.1.20080923.
+
+* Wed Sep 17 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080917-1
+- Update to 0.1.1.20080917.
+
+* Tue Sep 16 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080916-1
+- Update to 0.1.1.20080916.
+
+* Mon Sep 15 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080914-1
+- Update to 0.1.1.20080914.
+
+* Mon Sep 08 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080908-1
+- Update to 0.1.1.20080908.
+
+* Mon Sep 01 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080901-1
+- Update to 0.1.1.20080901.
+
+* Sat Aug 30 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080830-1
+- Update to 0.1.1.20080830.
+
+* Mon Aug 25 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080825-1
+- Update to 0.1.1.20080825.
+
+* Sat Aug 23 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080823-1
+- Update to 0.1.1.20080823.
+
+* Fri Aug 15 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080815-1
+- Update to 0.1.1.20080815.
+
+* Tue Aug 12 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.1.20080812-1
+- Update to 0.1.1.20080812.
+
+* Mon Aug 11 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.0.20080810-2
+- Add gnome-python2-gconf in Requires.
+
+* Thu Aug 07 2008 Huang Peng <shawn.p.huang@gmail.com> - 0.1.0.20080810-1
 - The first version.
