@@ -10,7 +10,6 @@ IBusPropType
 IBusPropState
 <TITLE>IBusProperty</TITLE>
 IBusProperty
-<TITLE>IBusPropList</TITLE>
 IBusPropList
 ibus_property_new
 ibus_property_set_label
@@ -202,7 +201,6 @@ IBusAttrType
 IBusAttrUnderline
 <TITLE>IBusAttribute</TITLE>
 IBusAttribute
-<TITLE>IBusAttrList</TITLE>
 IBusAttrList
 ibus_attribute_new
 ibus_attr_underline_new
