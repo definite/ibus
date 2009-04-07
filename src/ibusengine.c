@@ -349,7 +349,7 @@ ibus_engine_class_init (IBusEngineClass *klass)
      * @engine: An IBusEngine.
      *
      * This signal is emitted whenever the client application capabilities is set.
-     * Implement set_cursor_location() in extend class to receive this signal.
+     * Implement set_capabilities() in extend class to receive this signal.
      */
     engine_signals[SET_CAPABILITIES] =
         g_signal_new (I_("set-capabilities"),
