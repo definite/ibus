@@ -24,7 +24,9 @@ BuildRequires:  gtk2-devel
 BuildRequires:  dbus-devel
 # BuildRequires:  qt-devel
 BuildRequires:  dbus-glib-devel
+BuildRequires: dbus-python-devel
 BuildRequires:  desktop-file-utils
+BuildRequires: GConf2-devel
 
 Requires(post):  desktop-file-utils
 Requires(post):  %{_sbindir}/alternatives

@@ -17,6 +17,15 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+/**
+ * SECTION: ibusconfig
+ * @short_description: iBus engine configuration module.
+ *
+ * An IBusConfig provides engine configuration methods
+ * such as get and set the configure settings to configuration file.
+ *
+ * Currently, IBusConfig supports gconf.
+ */
 #ifndef __CONFIG_H_
 #define __CONFIG_H_
 
