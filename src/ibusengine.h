@@ -58,9 +58,19 @@ G_BEGIN_DECLS
 typedef struct _IBusEngine IBusEngine;
 typedef struct _IBusEngineClass IBusEngineClass;
 
+/**
+ * IBusEngine:
+ * @enabled: Whether the engine is enabled.
+ * @has_focus: Whether the engine has focus.
+ * @cursor_area: Area of cursor.
+ * @client_capabilities: IBusCapabilite (client capabilities) flags.
+ *
+ * IBusEngine properties.
+ */
 struct _IBusEngine {
     IBusService parent;
     /* instance members */
+    /*< public >*/
     gboolean enabled;
     gboolean has_focus;
 
@@ -120,7 +130,7 @@ GType        ibus_engine_get_type       (void);
  * @connection: An opened IBusConnection.
  * @returns: A newly allocated IBusEngine.
  *
- * New an  IBusEngine.
+ * New an IBusEngine.
  */
 IBusEngine  *ibus_engine_new            (const gchar        *name,
         const gchar        *path,
@@ -168,6 +178,7 @@ void         ibus_engine_show_preedit_text
  */
 void         ibus_engine_hide_preedit_text
 (IBusEngine         *engine);
+
 /**
  * ibus_engine_update_auxiliary_text:
  * @engine: An IBusEngine.
