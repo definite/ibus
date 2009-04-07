@@ -227,10 +227,10 @@ GList       *ibus_bus_list_engines      (IBusBus        *bus);
  * ibus_bus_list_active_engines:
  * @bus: An IBusBus.
  * @returns: A GList of active engines.
- * @note: Not yet implemented.
  *
  * List active engines.
  * Note that this function is not yet implemented.
+ * <note><para>Not yet implemented.</para></note>
  */
 GList       *ibus_bus_list_active_engines
                                         (IBusBus        *bus);

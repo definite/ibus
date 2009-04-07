@@ -208,7 +208,7 @@ void                 ibus_lookup_table_clear    (IBusLookupTable    *table);
 /**
  * ibus_lookup_table_page_up:
  * @table: An IBusLookupTable.
- * @returns: TRUE if success.
+ * @returns: TRUE if succeed.
  *
  * Go to previous page of an IBusLookupTable.
  *
@@ -221,7 +221,7 @@ gboolean             ibus_lookup_table_page_up  (IBusLookupTable    *table);
 /**
  * ibus_lookup_table_page_down:
  * @table: An IBusLookupTable.
- * @returns: TRUE if success.
+ * @returns: TRUE if succeed.
  *
  * Go to next page of an IBusLookupTable.
  *
@@ -234,7 +234,7 @@ gboolean             ibus_lookup_table_page_down(IBusLookupTable    *table);
 /**
  * ibus_lookup_table_cursor_up:
  * @table: An IBusLookupTable.
- * @returns: TRUE if success.
+ * @returns: TRUE if succeed.
  *
  * Go to previous candidate of an IBusLookupTable.
  *
@@ -247,7 +247,7 @@ gboolean             ibus_lookup_table_cursor_up(IBusLookupTable    *table);
 /**
  * ibus_lookup_table_cursor_down:
  * @table: An IBusLookupTable.
- * @returns: TRUE if success.
+ * @returns: TRUE if succeed.
  *
  * Go to next candidate of an IBusLookupTable.
  *

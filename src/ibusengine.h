@@ -251,7 +251,6 @@ void         ibus_engine_hide_lookup_table
  * ibus_engine_forward_key_event:
  * @engine: An IBusEngine.
  * @keyval: KeySym.
- * @is_press: Where the key is pressed.
  * @state: Key modifier flags.
  *
  * Forward the key event.
