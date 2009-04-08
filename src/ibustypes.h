@@ -22,7 +22,7 @@
  * @short_description: Generic types for  iBus.
  * @stability: Stable
  *
- * This session consists generic types for iBus, including shift/control key modifiers,
+ * This section consists generic types for iBus, including shift/control key modifiers,
  * and a rectangle structure.
  */
 #ifndef __IBUS_TYPES_H_

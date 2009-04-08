@@ -204,7 +204,7 @@ msgstr "顯示語言面板:"
 
 #: ../setup/setup.glade.h:27
 msgid "Start ibus on login"
-msgstr "啟動桌面时自动啟動IBus"
+msgstr "啟動桌面時自動啟動IBus"
 
 #: ../setup/setup.glade.h:28
 msgid "Use custom font"
@@ -228,7 +228,7 @@ msgstr "下一個引擎熱鍵"
 
 #: ../data/ibus.schemas.in.h:5
 msgid "Next engine hotkey for switch to next input method engine"
-msgstr "下一個引擎快捷切換鍵"
+msgstr "下一個引擎熱鍵"
 
 #: ../data/ibus.schemas.in.h:6
 msgid "Orientation of Lookup Table"
@@ -252,7 +252,7 @@ msgstr "上一個引擎熱鍵"
 
 #: ../data/ibus.schemas.in.h:11
 msgid "Prev engine hotkey for switch to previous input method engine"
-msgstr "上一個引擎快捷切換鍵"
+msgstr "上一個引擎引擎熱鍵"
 
 #: ../data/ibus.schemas.in.h:12
 msgid ""
