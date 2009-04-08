@@ -79,7 +79,7 @@ IBusConfig      *ibus_config_new            (IBusConnection     *connection);
  * ibus_config_get_value:
  * @config: An IBusConfig
  * @section: Section name of the configuration option.
- * @name: Name of the configure option its self.
+ * @name: Name of the configure option.
  * @value: GValue that holds the value.
  * @returns: TRUE if succeed; FALSE otherwise.
  *

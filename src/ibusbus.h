@@ -59,7 +59,7 @@ typedef struct _IBusBusClass IBusBusClass;
 /**
  * IBusBus:
  *
- * Struct for containing iBus bus (daemon communication) status.
+ * An opaque data type representing iBus bus (daemon communication) status.
  */
 struct _IBusBus {
   IBusObject parent;
