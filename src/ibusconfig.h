@@ -19,7 +19,7 @@
  */
 /**
  * SECTION: ibusconfig
- * @short_description: iBus engine configuration module.
+ * @short_description: IBus engine configuration module.
  *
  * An IBusConfig provides engine configuration methods
  * such as get and set the configure settings to configuration file.
@@ -86,7 +86,7 @@ IBusConfig      *ibus_config_new            (IBusConnection     *connection);
  * Get the value of a configuration option.
  *
  * GConf stores configure options in a tree-like structure,
- * and the iBus related setting is at /desktop/ibus,
+ * and the IBus related setting is at /desktop/ibus,
  * thus, @section here is a path from there,
  * while @name is the key of that configuration option.
  *
@@ -100,7 +100,7 @@ gboolean         ibus_config_get_value      (IBusConfig         *config,
                                              GValue             *value);
 
 /**
- * ibus_config_get_value:
+ * ibus_config_set_value:
  * @config: An IBusConfig
  * @section: Section name of the configuration option.
  * @name: Name of the configure option its self.

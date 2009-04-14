@@ -162,7 +162,7 @@ GType                ibus_config_service_get_type   (void);
  * ibus_config_service_new:
  * @connection: An IBusConnection.
  * @returns: A newly allocated IBusConfigServices.
- * 
+ *
  * New an IBusConfigService from an IBusConnection.
  */
 IBusConfigService   *ibus_config_service_new        (IBusConnection     *connection);
@@ -173,9 +173,9 @@ IBusConfigService   *ibus_config_service_new        (IBusConnection     *connect
  * @section: Section name of the configuration option.
  * @name: Name of the configure option.
  * @value: GValue that holds the value.
- * 
- * Change a value of a configuration option 
- * by sending a "ValueChanged" message to iBus service.
+ *
+ * Change a value of a configuration option
+ * by sending a "ValueChanged" message to IBus service.
  */
 void                 ibus_config_service_value_changed
                                                     (IBusConfigService  *config,

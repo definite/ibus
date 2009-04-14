@@ -19,10 +19,10 @@
  */
 /**
  * SECTION: ibusbus
- * @short_description: Connect with iBus daemon.
+ * @short_description: Connect with IBus daemon.
  * @stability: Stable
  *
- * An IBusBus connects with iBus daemon.
+ * An IBusBus connects with IBus daemon.
  */
 #ifndef __IBUS_BUS_H_
 #define __IBUS_BUS_H_
@@ -59,7 +59,7 @@ typedef struct _IBusBusClass IBusBusClass;
 /**
  * IBusBus:
  *
- * An opaque data type representing iBus bus (daemon communication) status.
+ * An opaque data type representing IBus bus (daemon communication) status.
  */
 struct _IBusBus {
   IBusObject parent;
@@ -85,7 +85,7 @@ IBusBus     *ibus_bus_new               (void);
  * @bus: An IBusBus.
  * @returns: TRUE if @bus is connected, FALSE otherwise.
  *
- * Return TRUE if @bus is connected to iBus daemon.
+ * Return TRUE if @bus is connected to IBus daemon.
  */
 gboolean     ibus_bus_is_connected      (IBusBus        *bus);
 
@@ -108,7 +108,7 @@ const gchar *ibus_bus_hello             (IBusBus        *bus);
  * @flags: Flags (FixMe).
  * @returns: 0 if failed; positive number otherwise.
  *
- * Request a name from iBus daemon.
+ * Request a name from IBus daemon.
  */
 guint        ibus_bus_request_name      (IBusBus        *bus,
                                          const gchar    *name,
@@ -120,7 +120,7 @@ guint        ibus_bus_request_name      (IBusBus        *bus,
  * @name: Name to be released.
  * @returns: 0 if failed; positive number otherwise.
  *
- * Release a name to iBus daemon.
+ * Release a name to IBus daemon.
  */
 guint        ibus_bus_release_name      (IBusBus        *bus,
                                          const gchar    *name);

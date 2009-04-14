@@ -19,11 +19,19 @@
  */
 /**
  * SECTION: ibuscomponent
- * @short_description:  Component (Input method engine) specification.
+ * @short_description:  Component (executable) specification.
  * @stability: Stable
  *
- * An IBusComponent defines basic information about a component,
- * which is usually an input method engine.
+ * An IBusComponent is an executable program.
+ * It provides services such as user interface, configuration,
+ * and input method engine (IME).
+ *
+ * It is recommended that IME developers provide
+ * a component XML file and 
+ * load the XML file by ibus_component_new_from_file().
+ *
+ * The format of a component XML file is described  at
+ * <ulink url="http://code.google.com/p/ibus/wiki/DevXML">http://code.google.com/p/ibus/wiki/DevXML</ulink>
  */
 #ifndef __IBUS_COMPONENT_H_
 #define __IBUS_COMPONENT_H_
@@ -67,7 +75,7 @@ typedef struct _IBusComponentClass IBusComponentClass;
  * @exec: path to component executable.
  * @textdomain: Domain name for dgettext()
  *
- * An IBusComponent stores information about input method engines
+ * An IBusComponent stores component information.
  */
 struct _IBusComponent {
     IBusSerializable parent;

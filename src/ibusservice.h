@@ -19,7 +19,7 @@
  */
 /**
  * SECTION: ibusservice
- * @short_description: iBus service back-end.
+ * @short_description: IBus service back-end.
  * @stability: Stable
  *
  * An IBusService is a base class for services.
