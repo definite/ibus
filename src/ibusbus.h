@@ -85,7 +85,11 @@ IBusBus     *ibus_bus_new               (void);
  * @bus: An IBusBus.
  * @returns: TRUE if @bus is connected, FALSE otherwise.
  *
+<<<<<<< HEAD:src/ibusbus.h
  * Return TRUE if @bus is connected to IBus daemon.
+=======
+ * Return TRUE if @bus is connected to iBus daemon.
+>>>>>>> d0ad103ac50b20ca00ee6359b13bcc63405b9f6c:src/ibusbus.h
  */
 gboolean     ibus_bus_is_connected      (IBusBus        *bus);
 
