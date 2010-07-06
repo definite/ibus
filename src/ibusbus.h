@@ -112,7 +112,7 @@ const gchar *ibus_bus_hello             (IBusBus        *bus);
  * ibus_bus_request_name:
  * @bus: the IBusBus instance to be processed.
  * @name: Name to be requested.
- * @flags: Flags (FixMe).
+ * @flags: DBus RequestName flags, but put 0 as IBus daemon currently ignore it.
  * @returns: 0 if failed; positive number otherwise.
  *
  * Request a name from IBus daemon.
@@ -215,7 +215,7 @@ IBusInputContext
  * ibus_bus_current_input_context:
  * @bus: An IBusBus.
  * @returns: The named of currently focued IBusInputContext if the
- *            "CurrentInputContext" call suceeded, NULL otherwise. The return
+ *            "CurrentInputContext" call succeeded, NULL otherwise. The return
  *            value must be freed with g_free().
  *
  * Get the current focused input context.
@@ -229,7 +229,7 @@ gchar       *ibus_bus_current_input_context(IBusBus        *bus);
  * @component: A input engine component.
  * @returns: TRUE if the "RegisterComponent" call is suceeded, FALSE otherwise.
  *
- * Register a componet to an IBusBus.
+ * Register a component to an IBusBus.
  */
 gboolean     ibus_bus_register_component(IBusBus        *bus,
                                          IBusComponent  *component);
